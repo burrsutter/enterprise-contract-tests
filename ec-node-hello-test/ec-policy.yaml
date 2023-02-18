@@ -1,0 +1,14 @@
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: EnterpriseContractPolicy
+metadata:
+  name: ec-policy
+spec:
+  configuration: {}
+  description: My EnterpriseContractPolicy
+  publicKey: k8s://tekton-chains/public-key
+  sources:
+  - data:
+    - oci::https://quay.io/hacbs-contract/ec-policy-data:latest
+    name: Default Policies
+    policy:
+    - oci::https://quay.io/hacbs-contract/ec-release-policy:latest
