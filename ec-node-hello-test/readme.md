@@ -1,4 +1,13 @@
-Grab CLI
+# Hello World
+
+Uses this codebase
+
+https://github.com/burrsutter/ec-node-hello
+
+And applies various EC policies against the container image produced by Stonesoup
+
+
+### Create CLI
 
 ```
 cd ~/projects
@@ -10,16 +19,19 @@ cd ec-cli
 make build
 ```
 
+### Add CLI to path
 
 ```
 export PATH=/Users/burr/projects/ec-cli/dist:$PATH
 ```
 
-Test CLI
+### Test CLI
 
 ```
 ec
 ```
+
+The following help output is displayed
 
 ```
 Enterprise Contract CLI
@@ -51,7 +63,7 @@ Use "ec [command] --help" for more information about a command.
 ```
 
 
-Add Policy and Integration Test
+### Add Policy and Integration Test
 
 ```
 oc apply -f ec-policy.yaml
@@ -59,44 +71,101 @@ oc apply -f ec-policy.yaml
 oc apply -f ec-integrationtest.yaml
 ```
 
+## Visit the GUI
 
 ```
 open https://console.dev.redhat.com/hac/stonesoup
 ```
 
-And add the following URL argument and reload page
+And add the following URL argument and refresh page
 
 https://console.dev.redhat.com/hac/stonesoup?mvp=false
 
-Create Application 
+## Create Application 
 
 Load in the following repository
 
 https://github.com/burrsutter/ec-node-hello
 
+![Import Default](../images/import-default.png)
 
 Screenshots
 
-https://www.screencast.com/t/UcI6QQEJhW5G
+![Integration Test](../images/integration-test.png)
 
-https://www.screencast.com/t/EVRIny0g
+![Verify](../images/verify.png)
 
 
-Extract container image info from Component
+## Back to the CLI
+
+### Extract container image info from Component
 
 ```
 CONTAINERIMAGE=$(oc get component ec-node-hello-d4m7 -oyaml | yq .spec.containerImage)
 echo $CONTAINERIMAGE
 ```
 
+### Test with ec CLI
+
 ```
-ec validate image --image $CONTAINERIMAGE
+ec validate image --image $CONTAINERIMAGE | jq
 ```
+
+Success (as also seen in the GUI)
+
+```
+{
+  "success": true,
+  "components": [
+    {
+      "name": "Unnamed",
+      "containerImage": "quay.io/redhat-appstudio/user-workload@sha256:7849644eba2b5d8502017c4767b7a6c830758455771c7753528908741a1892fe",
+      "violations": [],
+      "warnings": [],
+      "success": true,
+      "signatures": [
+        {
+          "keyid": "SHA256:XYKS3l5z/5Lb69ghfJkB8aLlQgAAPjyQu6p8Dzo9VAw",
+          "sig": "MEQCIBEOcmGkvmzCovzVLs/VQQ9gzjzVfN/MLgoZuNiue7sTAiAP9AnMScjLRGx9N9TKdBSyOBHXl861ifaNhYU+2082Pg==",
+          "metadata": {
+            "predicateBuildType": "tekton.dev/v1beta1/TaskRun",
+            "predicateType": "https://slsa.dev/provenance/v0.2",
+            "type": "https://in-toto.io/Statement/v0.1"
+          }
+        },
+        {
+          "keyid": "SHA256:XYKS3l5z/5Lb69ghfJkB8aLlQgAAPjyQu6p8Dzo9VAw",
+          "sig": "MEUCIGi7JwCSTVqyalRBTOoez1G5HhChTUoFAGc/1UOWz3EbAiEAvNhTnLXed6yQqdpf34MxkYn9dJvjmWj3Z8JMkinqTAY=",
+          "metadata": {
+            "predicateBuildType": "tekton.dev/v1beta1/PipelineRun",
+            "predicateType": "https://slsa.dev/provenance/v0.2",
+            "type": "https://in-toto.io/Statement/v0.1"
+          }
+        },
+        {
+          "keyid": "SHA256:XYKS3l5z/5Lb69ghfJkB8aLlQgAAPjyQu6p8Dzo9VAw",
+          "sig": "MEUCIQCPtDDjSRA5SAnXDgc7JUXGFMZaZGflYyyVwCss0MRfygIgMcRsO/xNa7PNzgLkYyh0KkeiLhiSuH5bji2ccvnaifA=",
+          "metadata": {
+            "predicateBuildType": "tekton.dev/v1beta1/PipelineRun",
+            "predicateType": "https://slsa.dev/provenance/v0.2",
+            "type": "https://in-toto.io/Statement/v0.1"
+          }
+        }
+      ]
+    }
+  ],
+  "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1D2S9GEhb0op0ZVv/53lxnLUYjP3\njG0/VJFmmggPoGNmg1GagPw8dfpq2qTad5MV/JnPFVCar3pBv/55RO8abg==\n-----END PUBLIC KEY-----\n"
+}
+```
+
+
+### Execute some tests
 
 ```
 ec validate image --image $CONTAINERIMAGE --policy '{"configuration":null,"description":"ACME \u0026 co policy","publicKey":"k8s://tekton-chains/public-key","sources":[{"data":["github.com/hacbs-contract/ec-policies//data"],"name":"EC Policies","policy":["github.com/hacbs-contract/ec-policies//policy/lib","github.com/hacbs-contract/ec-policies//policy/release"]}]}' --output yaml
 ```
 
+See the failure results
 
 ```
 components:
@@ -178,3 +247,4 @@ key: |
   -----END PUBLIC KEY-----
 success: false
 ```
+
