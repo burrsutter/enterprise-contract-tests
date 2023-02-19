@@ -94,5 +94,87 @@ ec validate image --image $CONTAINERIMAGE
 ```
 
 ```
-ec validate image --image $CONTAINERIMAGE --policy '{"configuration":null,"description":"ACME \u0026 co policy","publicKey":"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEODgxyIz09vBqJlXXzjp/X2h17WIt\njCVQhnDYVWHvXhw6rgqGeg6NTUxIEhRQqQZaF9mcBotHkuYGJfYZbai+FA==\n-----END PUBLIC KEY-----","sources":[{"data":["github.com/hacbs-contract/ec-policies//data"],"name":"EC Policies","policy":["github.com/hacbs-contract/ec-policies//policy/lib","github.com/hacbs-contract/ec-policies//policy/release"]}]}' --output yaml
+ec validate image --image $CONTAINERIMAGE --policy '{"configuration":null,"description":"ACME \u0026 co policy","publicKey":"k8s://tekton-chains/public-key","sources":[{"data":["github.com/hacbs-contract/ec-policies//data"],"name":"EC Policies","policy":["github.com/hacbs-contract/ec-policies//policy/lib","github.com/hacbs-contract/ec-policies//policy/release"]}]}' --output yaml
+```
+
+
+```
+components:
+- containerImage: quay.io/redhat-appstudio/user-workload@sha256:7849644eba2b5d8502017c4767b7a6c830758455771c7753528908741a1892fe
+  name: Unnamed
+  signatures:
+  - keyid: SHA256:XYKS3l5z/5Lb69ghfJkB8aLlQgAAPjyQu6p8Dzo9VAw
+    metadata:
+      predicateBuildType: tekton.dev/v1beta1/TaskRun
+      predicateType: https://slsa.dev/provenance/v0.2
+      type: https://in-toto.io/Statement/v0.1
+    sig: MEQCIBEOcmGkvmzCovzVLs/VQQ9gzjzVfN/MLgoZuNiue7sTAiAP9AnMScjLRGx9N9TKdBSyOBHXl861ifaNhYU+2082Pg==
+  - keyid: SHA256:XYKS3l5z/5Lb69ghfJkB8aLlQgAAPjyQu6p8Dzo9VAw
+    metadata:
+      predicateBuildType: tekton.dev/v1beta1/PipelineRun
+      predicateType: https://slsa.dev/provenance/v0.2
+      type: https://in-toto.io/Statement/v0.1
+    sig: MEUCIGi7JwCSTVqyalRBTOoez1G5HhChTUoFAGc/1UOWz3EbAiEAvNhTnLXed6yQqdpf34MxkYn9dJvjmWj3Z8JMkinqTAY=
+  - keyid: SHA256:XYKS3l5z/5Lb69ghfJkB8aLlQgAAPjyQu6p8Dzo9VAw
+    metadata:
+      predicateBuildType: tekton.dev/v1beta1/PipelineRun
+      predicateType: https://slsa.dev/provenance/v0.2
+      type: https://in-toto.io/Statement/v0.1
+    sig: MEUCIQCPtDDjSRA5SAnXDgc7JUXGFMZaZGflYyyVwCss0MRfygIgMcRsO/xNa7PNzgLkYyh0KkeiLhiSuH5bji2ccvnaifA=
+  success: false
+  violations:
+  - metadata:
+      code: hermetic_build_task.build_task_not_hermetic
+      effective_on: "2022-01-01T00:00:00Z"
+    msg: Build task was not invoked with hermetic parameter
+  - metadata:
+      code: buildah_build_task.dockerfile_param_external_source
+      effective_on: "2022-01-01T00:00:00Z"
+    msg: DOCKERFILE param value (https://raw.githubusercontent.com/nodeshift-starters/devfile-sample/main/Dockerfile)
+      is an external source
+  - metadata:
+      code: tasks.missing_required_task
+      effective_on: "2022-01-01T00:00:00Z"
+      term: clair-scan
+    msg: Required task "clair-scan" is missing
+  - metadata:
+      code: tasks.missing_required_task
+      effective_on: "2022-01-01T00:00:00Z"
+      term: clamav-scan
+    msg: Required task "clamav-scan" is missing
+  - metadata:
+      code: tasks.missing_required_task
+      effective_on: "2022-01-01T00:00:00Z"
+      term: prefetch-dependencies
+    msg: Required task "prefetch-dependencies" is missing
+  - metadata:
+      code: tasks.missing_required_task
+      effective_on: "2022-01-01T00:00:00Z"
+      term: sanity-inspect-image
+    msg: Required task "sanity-inspect-image" is missing
+  - metadata:
+      code: tasks.missing_required_task
+      effective_on: "2022-01-01T00:00:00Z"
+      term: sanity-label-check
+    msg: Required task "sanity-label-check" is missing
+  - metadata:
+      code: tasks.missing_required_task
+      effective_on: "2022-01-01T00:00:00Z"
+      term: sast-snyk-check
+    msg: Required task "sast-snyk-check" is missing
+  - metadata:
+      code: test.test_data_missing
+      effective_on: "2022-01-01T00:00:00Z"
+    msg: No test data found
+  warnings:
+  - metadata:
+      code: tasks.missing_required_pipeline_task_warning
+      effective_on: "2022-01-01T00:00:00Z"
+    msg: Required tasks do not exist for pipeline
+key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1D2S9GEhb0op0ZVv/53lxnLUYjP3
+  jG0/VJFmmggPoGNmg1GagPw8dfpq2qTad5MV/JnPFVCar3pBv/55RO8abg==
+  -----END PUBLIC KEY-----
+success: false
 ```
