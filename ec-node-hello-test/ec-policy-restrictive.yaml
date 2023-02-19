@@ -1,0 +1,15 @@
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: EnterpriseContractPolicy
+metadata:
+  name: ec-policy
+spec:
+  configuration: {}
+  description: My EnterpriseContractPolicy
+  publicKey: k8s://tekton-chains/public-key
+  sources:
+  - data:
+    - github.com/hacbs-contract/ec-policies//data
+    name: Restrictive Policies
+    policy:
+      - github.com/hacbs-contract/ec-policies//policy/lib
+      - github.com/hacbs-contract/ec-policies//policy/release
