@@ -1,0 +1,11 @@
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: IntegrationTestScenario
+metadata:
+  name: enterprise-contract
+spec:
+  application: ec-boot-docker
+  bundle: quay.io/redhat-appstudio-tekton-catalog/pipeline-enterprise-contract:devel
+  contexts:
+  - description: Application testing
+    name: application
+  pipeline: enterprise-contract
