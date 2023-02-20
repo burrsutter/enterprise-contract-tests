@@ -9,3 +9,6 @@ spec:
   - description: Application testing
     name: application
   pipeline: enterprise-contract
+  params:
+    - name: POLICY_CONFIGURATION
+      value: ec-policy
