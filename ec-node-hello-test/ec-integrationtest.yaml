@@ -3,7 +3,7 @@ kind: IntegrationTestScenario
 metadata:
   name: enterprise-contract
 spec:
-  application: ec-node-hello
+  application: samples
   bundle: quay.io/redhat-appstudio-tekton-catalog/pipeline-enterprise-contract:devel
   contexts:
   - description: Application testing

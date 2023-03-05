@@ -6,8 +6,12 @@ spec:
   configuration: 
     collections:
     - minimal
-  description: Minimal ECP
-  publicKey: k8s://tekton-chains/public-key
+  description: My EnterpriseContractPolicy
+  publicKey: |-
+    -----BEGIN PUBLIC KEY-----
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEWVUppvU1x8t866CQQSXbKpojoaTq
+    imMnVnZ31e2ubZHKL1LdfgPG2gHIPeSeouTa8upOz9W+xxBFnA0X515Nsw==
+    -----END PUBLIC KEY-----
   sources:
   - data:
     - oci::https://quay.io/hacbs-contract/ec-policy-data:latest

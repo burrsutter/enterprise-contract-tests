@@ -11,5 +11,4 @@ spec:
     - github.com/hacbs-contract/ec-policies//data
     name: Restrictive Policies
     policy:
-      - github.com/hacbs-contract/ec-policies//policy/lib
       - github.com/hacbs-contract/ec-policies//policy/release

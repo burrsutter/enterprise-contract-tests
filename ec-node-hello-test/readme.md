@@ -8,6 +8,26 @@ https://github.com/burrsutter/ec-node-hello
 
 And applies various EC policies against the container image produced by Stonesoup
 
+What policy is in the cluster today?
+
+```
+oc get -n enterprise-contract-service enterprisecontractpolicy default -o yaml | yq .spec
+```
+
+```
+configuration:
+  collections:
+    - minimal
+description: |
+  Default EnterpriseContractPolicy. If a different policy is desired, this resource can serve as a starting point.
+publicKey: k8s://tekton-chains/public-key
+sources:
+  - data:
+      - oci::https://quay.io/hacbs-contract/ec-policy-data:latest@sha256:2321f0c6e9367d9e203dfbd17455cb0238d4c9b55e61e11ab659948d9bb8af9e
+    name: Default Policies
+    policy:
+      - oci::https://quay.io/hacbs-contract/ec-release-policy:latest@sha256:7779b9074fd58693fda5657422be1b025b876a880c058a29360b8383a511f687
+```
 
 ### Create ec CLI
 
@@ -78,6 +98,14 @@ oc apply -f ec-policy-minimal.yaml
 oc apply -f ec-integrationtest.yaml
 ```
 
+```
+oc get ecp
+```
+
+```
+oc get integrationtestscenario
+```
+
 ## Visit the Stonesoup GUI
 
 ```
@@ -117,7 +145,7 @@ ec-node-hello-d4m7                  2h    True     OK       Updated
 ```
 
 ```
-CONTAINERIMAGE=$(oc get component ec-node-hello-d4m7 -oyaml | yq .spec.containerImage)
+CONTAINERIMAGE=$(oc get component devfile-sample-03ja -oyaml | yq .spec.containerImage)
 echo $CONTAINERIMAGE
 ```
 

@@ -3,10 +3,10 @@ kind: IntegrationTestScenario
 metadata:
   name: enterprise-contract
 spec:
-  application: ec-boot-docker
-  bundle: quay.io/redhat-appstudio-tekton-catalog/pipeline-enterprise-contract:devel
+  application: policy-contract-enforce
+  bundle: quay.io/hacbs-contract/ec-task-bundle@sha256:68f8aac6b9c5ed5c2ccee67446b484155a2ea66969baaa0c3d872e5d0a71fa18
   contexts:
-  - description: Application testing
+  - description: EC testing
     name: application
   pipeline: enterprise-contract
   params:
